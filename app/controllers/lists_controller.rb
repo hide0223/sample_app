@@ -6,11 +6,12 @@ class ListsController < ApplicationController
   
   #以下のを追加
   def create
-    list = List.new(list_params)
-    list.save
-    #redirect_to '/top' を削除して、以下のコードに変更
-    #詳細画面にリダイレクト
-    redirect_to list_path(list.id)
+   @list = List.new(list_params)
+    if @list.save
+      redirect_to list_path(@list.id)
+    else
+      render :new
+    end
   end
   
   def index
@@ -37,7 +38,6 @@ class ListsController < ApplicationController
     list.destroy #データ（レコード）を削除
     redirect_to '/lists' #投稿一覧画面へリダイレクト
   end
-  
   
   private
   #ストロングパラメータ
